@@ -17,6 +17,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 public class GreetingsControllerTest {
 
+    public static final String NAME_ARG = "name";
+    public static final String GENDER_ARG = "gender";
     @Autowired
     MockMvc mockMvc;
     public static final String NAME = "Sebastian";
@@ -28,8 +30,8 @@ public class GreetingsControllerTest {
 
         mockMvc.perform(
                 get("/api/greeting")
-                .param("name", name)
-                .param("gender", gender)
+                .param(NAME_ARG, NAME)
+                .param(GENDER_ARG, gender)
         ).andExpect(
                 status().isOk()
         ).andExpect(
@@ -45,8 +47,8 @@ public class GreetingsControllerTest {
 
         mockMvc.perform(
                 get("/api/greeting")
-                        .param("name", NAME)
-                        .param("gender", gender)
+                        .param(NAME_ARG, NAME)
+                        .param(GENDER_ARG, gender)
         ).andExpect(
                 status().isOk()
         ).andExpect(
@@ -55,5 +57,23 @@ public class GreetingsControllerTest {
                 ))
         );
     }
+
+    @Test
+    public void genderParamNotPResetnTest() throws Exception {
+        mockMvc.perform(
+                get("/api/greeting")
+                        .param(NAME_ARG, NAME)
+        ).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void nameParamNotPResetnTest() throws Exception {
+        String gender = "female";
+        mockMvc.perform(
+                get("/api/greeting")
+                        .param(GENDER_ARG, gender)
+        ).andExpect(status().isBadRequest());
+    }
+
 
 }
