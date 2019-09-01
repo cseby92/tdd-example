@@ -15,7 +15,7 @@ public class GreetingsController {
     ) {
         String salutation = gender.equals("male") ? "Mr." : "Mrs.";
         String response = String.format("Hello %s %s. How are you?",salutation, name);
-        return new ResponseEntity(response,
+        return new ResponseEntity<>(response,
                 HttpStatus.OK);
     }
 
